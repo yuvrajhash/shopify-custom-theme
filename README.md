@@ -25,7 +25,7 @@ A modern, responsive, and customizable Shopify theme with both light and dark mo
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/shopify-custom-theme.git
+   git clone https://github.com/yuvrajhash/shopify-custom-theme.git
    cd shopify-custom-theme
    ```
 
@@ -123,9 +123,9 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 If you have any questions or feedback, please reach out:
 
-- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
-- Email: your.email@example.com
+- GitHub: [@Yuvrajhash](https://github.com/yuvrajhash)
+- Email: choudharyt2022@gmail.com
 
 ---
 
-Made with ❤️ by [Your Name]
+Made with ❤️ by Yuvraj
