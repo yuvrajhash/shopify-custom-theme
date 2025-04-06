@@ -1,73 +1,131 @@
 # Custom Shopify Theme
 
-A professional custom Shopify theme built with modern best practices.
+![Shopify Theme](https://img.shields.io/badge/Shopify-Theme-7AB55C)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen)
 
-## Features
+A modern, responsive, and customizable Shopify theme with both light and dark mode support. This theme is designed to provide an exceptional shopping experience with a focus on visual appeal and user experience.
 
-- Responsive design
-- Optimized for performance
-- Customizable sections
-- Modern JavaScript with ES6+ features
-- SCSS for styling
-- Accessibility compliant
+![Theme Preview](assets/images/hero-banner.jpg)
 
-## Getting Started
+## ✨ Features
 
-### Prerequisites
+- **Responsive Design**: Fully responsive layout that works on all devices
+- **Dark Mode**: Elegant dark theme option for enhanced visual experience
+- **Modular Sections**: Easily customizable sections for homepage and other pages
+- **Optimized for Conversion**: Strategic placement of CTAs and product displays
+- **Performance Focused**: Lightweight and fast-loading theme
+- **SEO Friendly**: Built with best practices for search engine optimization
+- **Accessibility**: WCAG compliant design elements
+- **Custom Page Templates**: Specialized templates for about, collection, and product pages
 
-- [Shopify CLI](https://shopify.dev/themes/tools/cli)
-- [Node.js](https://nodejs.org/) (v14 or later)
-- [npm](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/)
+## 🚀 Quick Start
 
-### Installation
+### Local Development
 
-1. Clone this repository
-2. Install dependencies:
-   ```
-   npm install
-   ```
-   or
-   ```
-   yarn install
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/shopify-custom-theme.git
+   cd shopify-custom-theme
    ```
 
-3. Start the development server:
+2. Preview locally:
+   ```bash
+   http-server
    ```
-   shopify theme serve
+   Then open `http://localhost:8080/preview.html` in your browser.
+
+### Deploying to Shopify
+
+1. Install Shopify CLI:
+   ```bash
+   npm install -g @shopify/cli @shopify/theme
    ```
 
-## Development
+2. Connect to your Shopify store:
+   ```bash
+   shopify login
+   ```
 
-### Folder Structure
+3. Push the theme to your store:
+   ```bash
+   shopify theme push
+   ```
 
-- `assets/`: Contains all theme assets (JS, CSS, images)
-- `config/`: Theme configuration files
-- `layout/`: Theme layout templates
-- `locales/`: Translation files
-- `sections/`: Reusable content sections
-- `snippets/`: Reusable template snippets
-- `templates/`: Theme templates
-
-### Build Process
-
-Run the build process to compile assets:
+## 🎨 Theme Structure
 
 ```
-npm run build
+├── assets/             # Theme assets (CSS, JS, images)
+├── config/             # Theme settings
+├── layout/             # Theme layouts
+├── sections/           # Theme sections
+├── snippets/           # Reusable code snippets
+├── templates/          # Page templates
+├── preview.html        # Local preview file
+└── preview.css         # Styles for preview
 ```
 
-## Deployment
+## 📋 Section Overview
 
-Deploy to your Shopify store:
+| Section | Description |
+|---------|-------------|
+| Hero Banner | Full-width banner with customizable image and text |
+| Featured Collection | Display featured products in a grid layout |
+| Image with Text | Combine images with descriptive text |
+| Newsletter | Email signup with background image |
+| Header | Navigation and logo display |
+| Footer | Site links and information |
 
-```
-shopify theme push
-```
+## 🌙 Dark Mode
 
-## Customization
+This theme includes a sophisticated dark mode with:
 
-Customize theme settings in the Shopify admin under "Themes" > "Customize".
+- Dark background with light text for better contrast
+- Blue accent colors for interactive elements
+- Enhanced card styling with subtle shadows
+- Image overlays for improved text readability
+- Inverted logo colors for dark backgrounds
 
-## License
+## 📱 Responsive Breakpoints
 
-[MIT License](LICENSE)
+- **Mobile**: Up to 480px
+- **Tablet**: 481px to 768px
+- **Desktop**: 769px and above
+
+## 🛠️ Customization
+
+The theme can be customized through:
+
+1. **Shopify Theme Editor**: Once uploaded to Shopify, use the theme editor to modify sections
+2. **Code Customization**: Edit the liquid, CSS, and JS files directly
+3. **Settings Schema**: Adjust the `settings_schema.json` file to add custom settings
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the issues page.
+
+## 📸 Screenshots
+
+<details>
+<summary>View Screenshots</summary>
+
+![Homepage](assets/images/hero-banner.jpg)
+![Product Page](assets/jeff-sheldon-Lj1S1_KD61k-unsplash.jpg)
+![About Page](assets/small-business-interior.jpg)
+
+</details>
+
+## 📞 Contact
+
+If you have any questions or feedback, please reach out:
+
+- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+- Email: your.email@example.com
+
+---
+
+Made with ❤️ by [Your Name]
