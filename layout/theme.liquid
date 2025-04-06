@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="{{ shop.locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="{{ settings.accent_color }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  <title>
+    {{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <!-- Favicon -->
+  {% if settings.favicon != blank %}
+    <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {% endif %}
+
+  <!-- CSS -->
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+  
+  <!-- JavaScript -->
+  <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+
+  <!-- Shopify-specific head content -->
+  {{ content_for_header }}
+  
+  <style>
+    :root {
+      --color-primary: {{ settings.primary_color }};
+      --color-secondary: {{ settings.secondary_color }};
+      --color-accent: {{ settings.accent_color }};
+      --font-heading: {{ settings.heading_font.family }}, {{ settings.heading_font.fallback_families }};
+      --font-body: {{ settings.body_font.family }}, {{ settings.body_font.fallback_families }};
+      --font-size-base: {{ settings.base_font_size }}px;
+      --container-width: {{ settings.container_width }};
+    }
+    
+    body {
+      font-family: var(--font-body);
+      font-size: var(--font-size-base);
+      line-height: 1.5;
+      color: var(--color-primary);
+      background-color: var(--color-secondary);
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-heading);
+    }
+  </style>
+</head>
+
+<body class="template-{{ template | split: '.' | first }}">
+  <a class="skip-to-content-link visually-hidden" href="#MainContent">
+    {{ 'accessibility.skip_to_content' | t }}
+  </a>
+
+  {% section 'header' %}
+
+  <main id="MainContent" class="main-content" role="main">
+    {{ content_for_layout }}
+  </main>
+
+  {% section 'footer' %}
+</body>
+</html>

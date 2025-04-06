@@ -1,0 +1,122 @@
+<div class="featured-collection" data-section-id="{{ section.id }}" data-section-type="featured-collection">
+  <div class="container">
+    {% if section.settings.title != blank %}
+      <h2 class="featured-collection__title">{{ section.settings.title }}</h2>
+    {% endif %}
+    
+    {% if section.settings.collection != blank %}
+      <div class="featured-collection__grid">
+        {% assign collection = collections[section.settings.collection] %}
+        {% assign product_limit = section.settings.products_to_show %}
+        
+        {% for product in collection.products limit: product_limit %}
+          <div class="featured-collection__item">
+            <div class="product-card">
+              <a href="{{ product.url }}" class="product-card__link">
+                <div class="product-card__image-wrapper">
+                  {% if product.featured_image != blank %}
+                    <img 
+                      src="{{ product.featured_image | img_url: '400x' }}"
+                      alt="{{ product.featured_image.alt | default: product.title }}"
+                      class="product-card__image"
+                      loading="lazy"
+                      width="{{ product.featured_image.width }}"
+                      height="{{ product.featured_image.height }}">
+                  {% else %}
+                    <img 
+                      src="{{ 'freestocks-_3Q3tsJ01nc-unsplash.jpg' | asset_url }}"
+                      alt="{{ product.title }}"
+                      class="product-card__image"
+                      loading="lazy">
+                  {% endif %}
+                  
+                  {% if product.compare_at_price > product.price %}
+                    <span class="product-card__badge">{{ 'products.product.on_sale' | t }}</span>
+                  {% endif %}
+                </div>
+                
+                <div class="product-card__info">
+                  <h3 class="product-card__title">{{ product.title }}</h3>
+                  
+                  <div class="product-card__price">
+                    {% if product.compare_at_price > product.price %}
+                      <span class="product-card__price--sale">{{ product.price | money }}</span>
+                      <span class="product-card__price--compare">{{ product.compare_at_price | money }}</span>
+                    {% else %}
+                      <span class="product-card__price--regular">{{ product.price | money }}</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </a>
+              
+              {% if product.available %}
+                <form method="post" action="/cart/add" class="product-card__form">
+                  <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                  <button type="submit" class="btn product-card__add-to-cart">
+                    {{ 'products.product.add_to_cart' | t }}
+                  </button>
+                </form>
+              {% else %}
+                <button class="btn btn--disabled product-card__sold-out" disabled>
+                  {{ 'products.product.sold_out' | t }}
+                </button>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      
+      {% if section.settings.view_all %}
+        <div class="featured-collection__view-all">
+          <a href="{{ collection.url }}" class="btn featured-collection__view-all-link">
+            {{ 'collections.general.view_all' | t }}
+          </a>
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="placeholder-noblocks">
+        {{ 'homepage.onboarding.no_content' | t }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured Collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Products to show",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "view_all",
+      "label": "Show 'View all' button",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

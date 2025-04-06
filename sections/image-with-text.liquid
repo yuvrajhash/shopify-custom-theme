@@ -1,0 +1,98 @@
+<div class="image-with-text" data-section-id="{{ section.id }}" data-section-type="image-with-text">
+  <div class="container">
+    <div class="image-with-text__wrapper">
+      <div class="image-with-text__image-wrapper">
+        {% if section.settings.image != blank %}
+          <img 
+            src="{{ section.settings.image | img_url: '800x' }}"
+            alt="{{ section.settings.image.alt | default: section.settings.title }}"
+            class="image-with-text__image"
+            loading="lazy"
+            width="{{ section.settings.image.width }}"
+            height="{{ section.settings.image.height }}">
+        {% else %}
+          <img 
+            src="{{ 'jeff-sheldon-Lj1S1_KD61k-unsplash.jpg' | asset_url }}"
+            alt="Stylish products"
+            class="image-with-text__image"
+            loading="lazy">
+        {% endif %}
+      </div>
+      
+      <div class="image-with-text__content">
+        {% if section.settings.title != blank %}
+          <h2 class="image-with-text__title">{{ section.settings.title }}</h2>
+        {% endif %}
+        
+        {% if section.settings.text != blank %}
+          <div class="image-with-text__text rte">{{ section.settings.text }}</div>
+        {% endif %}
+        
+        {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+          <a href="{{ section.settings.button_link }}" class="btn image-with-text__button">
+            {{ section.settings.button_label }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image with Text",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Image with text"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Pair text with an image to tell a story, explain a detail about your product, or describe a new promotion.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "left",
+          "label": "Image on left"
+        },
+        {
+          "value": "right",
+          "label": "Image on right"
+        }
+      ],
+      "default": "left"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image with Text",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

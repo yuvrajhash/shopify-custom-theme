@@ -1,0 +1,23 @@
+{
+  "name": "shopify-theme-custom",
+  "version": "1.0.0",
+  "description": "A professional custom Shopify theme",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx shopify theme dev",
+    "build": "npx shopify theme build",
+    "push": "npx shopify theme push",
+    "pull": "npx shopify theme pull"
+  },
+  "keywords": [
+    "shopify",
+    "theme",
+    "custom"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@shopify/cli": "^3.77.1",
+    "@shopify/theme": "^3.58.2"
+  }
+}

@@ -1,0 +1,203 @@
+<footer class="footer" data-section-id="{{ section.id }}" data-section-type="footer">
+  <div class="container">
+    <div class="footer__inner">
+      {% if section.blocks.size > 0 %}
+        <div class="footer__blocks">
+          {% for block in section.blocks %}
+            <div class="footer__block footer__block--{{ block.type }}" {{ block.shopify_attributes }}>
+              {% case block.type %}
+                {% when 'text' %}
+                  {% if block.settings.title != blank %}
+                    <h2 class="footer__block-title">{{ block.settings.title }}</h2>
+                  {% endif %}
+                  {% if block.settings.text != blank %}
+                    <div class="footer__block-content rte">{{ block.settings.text }}</div>
+                  {% endif %}
+                
+                {% when 'newsletter' %}
+                  {% if block.settings.title != blank %}
+                    <h2 class="footer__block-title">{{ block.settings.title }}</h2>
+                  {% endif %}
+                  
+                  {% if block.settings.text != blank %}
+                    <div class="footer__block-content rte">{{ block.settings.text }}</div>
+                  {% endif %}
+                  
+                  {% form 'customer', id: 'footer-newsletter' %}
+                    {% if form.errors %}
+                      <div class="form-message form-message--error">
+                        {{ form.errors | default_errors }}
+                      </div>
+                    {% endif %}
+                    
+                    {% if form.posted_successfully? %}
+                      <div class="form-message form-message--success">
+                        {{ 'general.newsletter_form.confirmation' | t }}
+                      </div>
+                    {% else %}
+                      <input type="hidden" name="contact[tags]" value="newsletter">
+                      <div class="footer__newsletter">
+                        <div class="footer__newsletter-input-wrapper">
+                          <label for="Email" class="visually-hidden">{{ 'general.newsletter_form.email_placeholder' | t }}</label>
+                          <input
+                            type="email"
+                            name="contact[email]"
+                            id="Email"
+                            class="footer__newsletter-input"
+                            value="{{ form.email }}"
+                            placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                            aria-required="true"
+                            required
+                            autocorrect="off"
+                            autocapitalize="off">
+                        </div>
+                        <button type="submit" class="footer__newsletter-submit" name="commit">
+                          <span class="visually-hidden">{{ 'general.newsletter_form.submit' | t }}</span>
+                          {% include 'icon-arrow-right' %}
+                        </button>
+                      </div>
+                    {% endif %}
+                  {% endform %}
+                
+                {% when 'link_list' %}
+                  {% if block.settings.title != blank %}
+                    <h2 class="footer__block-title">{{ block.settings.title }}</h2>
+                  {% endif %}
+                  
+                  {% assign footer_linklist = block.settings.menu %}
+                  {% if linklists[footer_linklist].links.size > 0 %}
+                    <ul class="footer__menu">
+                      {% for link in linklists[footer_linklist].links %}
+                        <li class="footer__menu-item">
+                          <a href="{{ link.url }}" class="footer__menu-link">
+                            {{ link.title }}
+                          </a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+              {% endcase %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      
+      <div class="footer__bottom">
+        {% if section.settings.show_payment_icons %}
+          {% unless shop.enabled_payment_types == empty %}
+            <div class="footer__payment">
+              <span class="visually-hidden">{{ 'general.payment.methods' | t }}</span>
+              <ul class="payment-icons">
+                {% for type in shop.enabled_payment_types %}
+                  <li class="payment-icon">
+                    {{ type | payment_type_svg_tag: class: 'icon' }}
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endunless %}
+        {% endif %}
+        
+        <div class="footer__copyright">
+          <small>&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: routes.root_url }}</small>
+          <small>{{ powered_by_link }}</small>
+        </div>
+        
+        {% if section.settings.show_social_icons %}
+          {% include 'social-icons' %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_icons",
+      "label": "Show social icons",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "About Our Store"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Subscribe to our newsletter"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>"
+        }
+      ]
+    },
+    {
+      "type": "link_list",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Quick Links"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "footer"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "text"
+      },
+      {
+        "type": "newsletter"
+      },
+      {
+        "type": "link_list"
+      }
+    ]
+  }
+}
+{% endschema %}

@@ -1,0 +1,155 @@
+<div class="page-about" data-section-id="{{ section.id }}" data-section-type="page-about">
+  <div class="page-about__hero" style="background-image: url('{{ 'small-business-interior.jpg' | asset_url }}'); background-size: cover; background-position: center;">
+    <div class="container">
+      <div class="page-about__hero-content">
+        <h1 class="page-about__title">{{ page.title }}</h1>
+      </div>
+    </div>
+  </div>
+  
+  <div class="page-about__content">
+    <div class="container">
+      <div class="page-about__grid">
+        <div class="page-about__text">
+          <div class="rte">
+            {{ page.content }}
+          </div>
+        </div>
+        
+        <div class="page-about__image">
+          <img 
+            src="{{ 'don-ross-iii-x-f-YuU1nw8-unsplash.jpg' | asset_url }}"
+            alt="About our store"
+            class="page-about__image-element"
+            loading="lazy">
+        </div>
+      </div>
+      
+      <div class="page-about__team">
+        <h2 class="page-about__team-title">{{ section.settings.team_title }}</h2>
+        
+        <div class="page-about__team-grid">
+          {% for block in section.blocks %}
+            <div class="page-about__team-member" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                <div class="page-about__team-member-image">
+                  <img 
+                    src="{{ block.settings.image | img_url: '300x' }}"
+                    alt="{{ block.settings.name }}"
+                    class="page-about__team-member-image-element"
+                    loading="lazy"
+                    width="{{ block.settings.image.width }}"
+                    height="{{ block.settings.image.height }}">
+                </div>
+              {% else %}
+                <div class="page-about__team-member-image">
+                  <img 
+                    src="{{ 'jeff-sheldon-Lj1S1_KD61k-unsplash.jpg' | asset_url }}"
+                    alt="{{ block.settings.name }}"
+                    class="page-about__team-member-image-element"
+                    loading="lazy">
+                </div>
+              {% endif %}
+              
+              <h3 class="page-about__team-member-name">{{ block.settings.name }}</h3>
+              <p class="page-about__team-member-role">{{ block.settings.role }}</p>
+              
+              {% if block.settings.bio != blank %}
+                <div class="page-about__team-member-bio rte">
+                  {{ block.settings.bio }}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <div class="page-about__values">
+        <h2 class="page-about__values-title">{{ section.settings.values_title }}</h2>
+        
+        <div class="page-about__values-grid">
+          <div class="page-about__value">
+            <div class="page-about__value-icon">
+              {% include 'icon-arrow-right' %}
+            </div>
+            <h3 class="page-about__value-title">Quality</h3>
+            <p class="page-about__value-text">We source only the highest quality products for our customers.</p>
+          </div>
+          
+          <div class="page-about__value">
+            <div class="page-about__value-icon">
+              {% include 'icon-arrow-right' %}
+            </div>
+            <h3 class="page-about__value-title">Sustainability</h3>
+            <p class="page-about__value-text">We're committed to sustainable practices throughout our business.</p>
+          </div>
+          
+          <div class="page-about__value">
+            <div class="page-about__value-icon">
+              {% include 'icon-arrow-right' %}
+            </div>
+            <h3 class="page-about__value-title">Community</h3>
+            <p class="page-about__value-text">We believe in giving back to the communities we serve.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "team_title",
+      "label": "Team section title",
+      "default": "Our Team"
+    },
+    {
+      "type": "text",
+      "id": "values_title",
+      "label": "Values section title",
+      "default": "Our Values"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "team_member",
+      "name": "Team Member",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Team member image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Team member name"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role",
+          "default": "Job title"
+        },
+        {
+          "type": "richtext",
+          "id": "bio",
+          "label": "Bio",
+          "default": "<p>Share a short bio about this team member.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Page",
+      "category": "Page"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,82 @@
+<div class="newsletter" data-section-id="{{ section.id }}" data-section-type="newsletter">
+  <div class="container">
+    <div class="newsletter__wrapper" style="background-color: {{ section.settings.background_color }}; background-image: url('{{ 'thom-bradley-mwa_nzFpnJw-unsplash.jpg' | asset_url }}'); background-size: cover; background-position: center;">
+      <div class="newsletter__content">
+        {% if section.settings.title != blank %}
+          <h2 class="newsletter__title">{{ section.settings.title }}</h2>
+        {% endif %}
+        
+        {% if section.settings.text != blank %}
+          <div class="newsletter__text rte">{{ section.settings.text }}</div>
+        {% endif %}
+        
+        {% form 'customer', id: 'newsletter-form' %}
+          {% if form.errors %}
+            <div class="form-message form-message--error">
+              {{ form.errors | default_errors }}
+            </div>
+          {% endif %}
+          
+          {% if form.posted_successfully? %}
+            <div class="form-message form-message--success">
+              {{ 'general.newsletter_form.confirmation' | t }}
+            </div>
+          {% else %}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="newsletter__form">
+              <div class="newsletter__form-input-wrapper">
+                <label for="NewsletterEmail" class="visually-hidden">{{ 'general.newsletter_form.email_placeholder' | t }}</label>
+                <input
+                  type="email"
+                  name="contact[email]"
+                  id="NewsletterEmail"
+                  class="newsletter__form-input"
+                  value="{{ form.email }}"
+                  placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                  aria-required="true"
+                  required
+                  autocorrect="off"
+                  autocapitalize="off">
+              </div>
+              <button type="submit" class="btn newsletter__form-submit" name="commit">
+                {{ 'general.newsletter_form.submit' | t }}
+              </button>
+            </div>
+          {% endif %}
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f7f7f7"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Subscribe to our newsletter"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter",
+      "category": "Promotional"
+    }
+  ]
+}
+{% endschema %}

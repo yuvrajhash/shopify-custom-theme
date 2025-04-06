@@ -1,0 +1,90 @@
+<div class="hero-banner" data-section-id="{{ section.id }}" data-section-type="hero-banner">
+  <div class="hero-banner__wrapper" style="background-color: {{ section.settings.background_color }};">
+    {% if section.settings.image != blank %}
+      <div class="hero-banner__image-wrapper">
+        <img 
+          src="{{ section.settings.image | img_url: '2000x' }}"
+          alt="{{ section.settings.image.alt | default: shop.name }}"
+          class="hero-banner__image"
+          loading="eager"
+          width="{{ section.settings.image.width }}"
+          height="{{ section.settings.image.height }}">
+      </div>
+    {% else %}
+      <div class="hero-banner__image-wrapper">
+        <img 
+          src="{{ 'luke-chesser-rCOWMC8qf8A-unsplash.jpg' | asset_url }}"
+          alt="Hero Banner"
+          class="hero-banner__image"
+          loading="eager">
+      </div>
+    {% endif %}
+    
+    <div class="container">
+      <div class="hero-banner__content">
+        {% if section.settings.title != blank %}
+          <h1 class="hero-banner__title">{{ section.settings.title }}</h1>
+        {% endif %}
+        
+        {% if section.settings.text != blank %}
+          <div class="hero-banner__text rte">{{ section.settings.text }}</div>
+        {% endif %}
+        
+        {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+          <a href="{{ section.settings.button_link }}" class="btn hero-banner__button">
+            {{ section.settings.button_label }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f7f7f7"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Welcome to our store"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Use this section to welcome customers to your store, share your brand story, or explain your products.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "default": "/collections/all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,147 @@
+<div class="header {% if section.settings.sticky_header %}header--sticky{% endif %}" data-section-id="{{ section.id }}" data-section-type="header">
+  <div class="container">
+    <div class="header__inner">
+      <div class="header__logo">
+        {% if section.settings.logo != blank %}
+          <a href="/" class="header__logo-link">
+            {% assign logo_alt = section.settings.logo.alt | default: shop.name %}
+            <img 
+              src="{{ section.settings.logo | img_url: '200x' }}" 
+              alt="{{ logo_alt }}"
+              width="{{ section.settings.logo_width }}"
+              height="{{ section.settings.logo_height }}"
+              loading="lazy"
+              class="header__logo-image">
+          </a>
+        {% else %}
+          <a href="/" class="header__logo-link">
+            <img 
+              src="{{ 'images/logo.svg' | asset_url }}" 
+              alt="{{ shop.name }}"
+              width="{{ section.settings.logo_width | default: 200 }}"
+              loading="lazy"
+              class="header__logo-image">
+          </a>
+        {% endif %}
+      </div>
+
+      <nav class="header__nav" role="navigation">
+        <ul class="header__menu">
+          {% for link in linklists[section.settings.menu].links %}
+            <li class="header__menu-item{% if link.active %} header__menu-item--active{% endif %}">
+              <a href="{{ link.url }}" class="header__menu-link">
+                {{ link.title }}
+              </a>
+              {% if link.links != blank %}
+                <ul class="header__submenu">
+                  {% for childlink in link.links %}
+                    <li class="header__submenu-item{% if childlink.active %} header__submenu-item--active{% endif %}">
+                      <a href="{{ childlink.url }}" class="header__submenu-link">
+                        {{ childlink.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+
+      <div class="header__icons">
+        <a href="/search" class="header__icon header__icon--search">
+          <span class="visually-hidden">{{ 'general.search.title' | t }}</span>
+          {% include 'icon-search' %}
+        </a>
+        
+        <a href="/account" class="header__icon header__icon--account">
+          <span class="visually-hidden">{{ 'customer.account.title' | t }}</span>
+          {% include 'icon-account' %}
+        </a>
+        
+        <a href="/cart" class="header__icon header__icon--cart">
+          <span class="visually-hidden">{{ 'cart.title' | t }}</span>
+          {% include 'icon-cart' %}
+          <span class="header__cart-count" data-cart-count>
+            {{ cart.item_count }}
+          </span>
+        </a>
+        
+        <button class="header__icon header__icon--menu" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="visually-hidden">{{ 'general.navigation.menu' | t }}</span>
+          {% include 'icon-hamburger' %}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu__container">
+    <button class="mobile-menu__close" aria-label="{{ 'general.navigation.close_menu' | t }}">
+      {% include 'icon-close' %}
+    </button>
+    
+    <nav class="mobile-menu__nav" role="navigation">
+      <ul class="mobile-menu__menu">
+        {% for link in linklists[section.settings.menu].links %}
+          <li class="mobile-menu__menu-item{% if link.active %} mobile-menu__menu-item--active{% endif %}">
+            <a href="{{ link.url }}" class="mobile-menu__menu-link">
+              {{ link.title }}
+            </a>
+            {% if link.links != blank %}
+              <button class="mobile-menu__submenu-toggle" aria-expanded="false">
+                <span class="visually-hidden">{{ 'general.navigation.expand_submenu' | t }}</span>
+                {% include 'icon-chevron-down' %}
+              </button>
+              <ul class="mobile-menu__submenu">
+                {% for childlink in link.links %}
+                  <li class="mobile-menu__submenu-item{% if childlink.active %} mobile-menu__submenu-item--active{% endif %}">
+                    <a href="{{ childlink.url }}" class="mobile-menu__submenu-link">
+                      {{ childlink.title }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 100
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_header",
+      "label": "Enable sticky header",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

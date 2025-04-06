@@ -1,0 +1,158 @@
+<div class="product-template" data-section-id="{{ section.id }}" data-section-type="product-template" data-product-id="{{ product.id }}">
+  <div class="container">
+    <div class="product-template__wrapper">
+      <div class="product-template__media">
+        {% if product.media.size > 0 %}
+          <div class="product-template__gallery">
+            <div class="product-template__main-image">
+              {% assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media %}
+              <img 
+                src="{{ featured_media | img_url: '800x' }}"
+                alt="{{ featured_media.alt | default: product.title }}"
+                class="product-template__image"
+                id="ProductImage"
+                data-image-id="{{ featured_media.id }}"
+                loading="eager"
+                width="{{ featured_media.width }}"
+                height="{{ featured_media.height }}">
+            </div>
+            
+            {% if product.media.size > 1 %}
+              <div class="product-template__thumbnails">
+                {% for media in product.media %}
+                  <div class="product-template__thumbnail{% if media.id == featured_media.id %} product-template__thumbnail--active{% endif %}" data-image-id="{{ media.id }}">
+                    <img 
+                      src="{{ media | img_url: '150x' }}"
+                      alt="{{ media.alt | default: product.title }}"
+                      class="product-template__thumbnail-image"
+                      loading="lazy"
+                      width="{{ media.width }}"
+                      height="{{ media.height }}">
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="product-template__no-image">
+            <img 
+              src="{{ 'don-ross-iii-x-f-YuU1nw8-unsplash.jpg' | asset_url }}"
+              alt="{{ product.title }}"
+              class="product-template__image"
+              loading="eager">
+          </div>
+        {% endif %}
+      </div>
+      
+      <div class="product-template__details">
+        <h1 class="product-template__title">{{ product.title }}</h1>
+        
+        <div class="product-template__vendor">
+          <span>{{ product.vendor }}</span>
+        </div>
+        
+        <div class="product-template__price">
+          <span class="product-template__price-value" data-product-price>
+            {% if product.compare_at_price > product.price %}
+              <span class="product-template__price--sale">{{ product.price | money }}</span>
+              <span class="product-template__price--compare">{{ product.compare_at_price | money }}</span>
+            {% else %}
+              <span class="product-template__price--regular">{{ product.price | money }}</span>
+            {% endif %}
+          </span>
+        </div>
+        
+        {% form 'product', product, id: 'AddToCartForm', class: 'product-template__form' %}
+          {% if product.has_only_default_variant %}
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+          {% else %}
+            <div class="product-template__variants">
+              {% for option in product.options_with_values %}
+                <div class="product-template__option">
+                  <label for="Option{{ option.position }}">
+                    {{ option.name }}
+                  </label>
+                  
+                  <select
+                    id="Option{{ option.position }}"
+                    name="options[{{ option.name }}]"
+                    class="product-template__select">
+                    {% for value in option.values %}
+                      <option
+                        value="{{ value }}"
+                        {% if option.selected_value == value %}selected="selected"{% endif %}>
+                        {{ value }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+          
+          <div class="product-template__quantity">
+            <label for="Quantity">{{ 'products.product.quantity' | t }}</label>
+            <input
+              type="number"
+              id="Quantity"
+              name="quantity"
+              value="1"
+              min="1"
+              class="product-template__quantity-input">
+          </div>
+          
+          <div class="product-template__submit">
+            <button
+              type="submit"
+              name="add"
+              class="btn product-template__add-to-cart"
+              {% unless product.available %}disabled{% endunless %}>
+              {% if product.available %}
+                {{ 'products.product.add_to_cart' | t }}
+              {% else %}
+                {{ 'products.product.sold_out' | t }}
+              {% endif %}
+            </button>
+          </div>
+        {% endform %}
+        
+        <div class="product-template__description rte">
+          {{ product.description }}
+        </div>
+        
+        {% if section.settings.show_share_buttons %}
+          <div class="product-template__share">
+            <span>{{ 'products.product.share' | t }}</span>
+            {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product.featured_media %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_quantity_selector",
+      "label": "Show quantity selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share_buttons",
+      "label": "Show social sharing buttons",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
